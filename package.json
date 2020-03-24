@@ -42,6 +42,7 @@
   },
   "devDependencies": {
     "@types/classnames": "^2.2.9",
+    "@types/react-motion": "^0.0.29",
     "autoprefixer": "^9.7.4",
     "css-loader": "^3.4.2",
     "file-loader": "^5.0.2",

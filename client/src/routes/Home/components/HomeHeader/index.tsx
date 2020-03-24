@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, CSSProperties } from 'react'
 import { Icon } from 'antd'
 import classnames from 'classnames'
+import { Transition } from 'react-transition-group'
+
 import './index.less'
 // 如果是用require加载的话，返回值的default属性才是那个图片的地址
 const logo = require('../../../../assets/images/logo.png')
@@ -10,9 +12,36 @@ export interface Props {
   setCurrentCategory: (currentCategory: string) => any // 改变仓库中的分类
 }
 
+const duration = 500
+
+const defaultStyle = {
+  transition: `opacity ${duration}ms ease-in-out`,
+  opacity: 0
+}
+interface TransitionStyles {
+  entering: CSSProperties
+  entered: CSSProperties
+  exiting: CSSProperties
+  exited: CSSProperties
+}
+
+const transitionStyles: TransitionStyles = {
+  entering: { opacity: 1 },
+  entered: { opacity: 1 },
+  exiting: { opacity: 0 },
+  exited: { opacity: 0 }
+}
+
 function HomeHeader(props: Props) {
   let [isMenuVisible, setIsMenuVisible] = useState(false)
-  const setCurrentCategory = () => {}
+
+  const setCurrentCategory = (event: React.MouseEvent<HTMLUListElement>) => {
+    let target: HTMLUListElement = event.target as HTMLUListElement
+    let category = target.dataset.category
+    props.setCurrentCategory(category)
+    setIsMenuVisible(false)
+  }
+
   return (
     <header className="home-header">
       <div className="logo-header">
@@ -22,30 +51,43 @@ function HomeHeader(props: Props) {
           onClick={_ => setIsMenuVisible(!isMenuVisible)}
         ></Icon>
       </div>
-      {isMenuVisible && (
-        <ul className="category">
-          <li
-            data-category="all"
-            className={classnames({ active: props.currentCategory === 'all' })}
+      <Transition in={isMenuVisible} timeout={duration}>
+        {(state: keyof TransitionStyles) => (
+          <ul
+            className="category"
+            onClick={setCurrentCategory}
+            style={{
+              ...defaultStyle,
+              ...transitionStyles[state]
+            }}
           >
-            全部课程
-          </li>
-          <li
-            data-category="react"
-            className={classnames({
-              active: props.currentCategory === 'react'
-            })}
-          >
-            react课程
-          </li>
-          <li
-            data-category="vue"
-            className={classnames({ active: props.currentCategory === 'vue' })}
-          >
-            vue课程
-          </li>
-        </ul>
-      )}
+            <li
+              data-category="all"
+              className={classnames({
+                active: props.currentCategory === 'all'
+              })}
+            >
+              全部课程
+            </li>
+            <li
+              data-category="react"
+              className={classnames({
+                active: props.currentCategory === 'react'
+              })}
+            >
+              React课程
+            </li>
+            <li
+              data-category="vue"
+              className={classnames({
+                active: props.currentCategory === 'vue'
+              })}
+            >
+              Vue课程
+            </li>
+          </ul>
+        )}
+      </Transition>
     </header>
   )
 }

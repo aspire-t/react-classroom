@@ -9,6 +9,7 @@ import './index.less'
 // 如果要用import 该如何解决？
 // 因为ts 不认识图片 只认识 js jsx tsx
 // 新建一个 images.d.ts 文件就可以了
+// 如果是import 加载的话，直接得到的就是图片地址，不需要加default
 import logo from '@/assets/images/logo.png'
 // const logo = require('../../../../assets/images/logo.png')
 
@@ -50,7 +51,7 @@ function HomeHeader(props: Props) {
   return (
     <header className="home-header">
       <div className="logo-header">
-        <img src={logo.default}></img>
+        <img src={logo}></img>
         <Icon
           type="bars"
           onClick={_ => setIsMenuVisible(!isMenuVisible)}

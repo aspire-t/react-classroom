@@ -4,8 +4,13 @@ import classnames from 'classnames'
 import { Transition } from 'react-transition-group'
 
 import './index.less'
+
 // 如果是用require加载的话，返回值的default属性才是那个图片的地址
-const logo = require('../../../../assets/images/logo.png')
+// 如果要用import 该如何解决？
+// 因为ts 不认识图片 只认识 js jsx tsx
+// 新建一个 images.d.ts 文件就可以了
+import logo from '@/assets/images/logo.png'
+// const logo = require('../../../../assets/images/logo.png')
 
 export interface Props {
   currentCategory: string // 当前选中的分类 此数据会放在redux仓库中

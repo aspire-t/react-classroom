@@ -30,7 +30,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(j|t)sx?$/,
+        test: /\.(j|t)sx?$/, // 这个正则包含了.ts, .tsx, .js, .jsx
         loader: 'ts-loader',
         //babel-plugin-import 可以实现antd按需加载，所以它要和babel-loader配合使用
         //ts-loader
@@ -102,7 +102,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/index.html'
     }),
-    //热更新插件
+    //热更新插件,webpack 内置插件
     new webpack.HotModuleReplacementPlugin()
   ]
 }

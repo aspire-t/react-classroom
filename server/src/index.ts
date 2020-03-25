@@ -6,8 +6,10 @@ import helmet from 'helmet' // 用来进行安全过滤的
 // import multer from 'multer' // 上传头像
 import 'dotenv/config' // 这是包的作用是读取.env文件然后写入process.env.JWT_SECRET_KEY
 import path from 'path'
+
 import errorMiddleware from './middlewares/errorMiddleware'
 import HttpException from './exceptions/HttpException'
+import * as userController from './controllers/userController'
 
 const app: Express = express()
 app.use(cors())
@@ -21,6 +23,8 @@ app.get('/', (_req, res, _next) => {
     data: 'hello world'
   })
 })
+
+app.post('/user/register', userController.register)
 
 // 如果没有匹配到任何路由，则会创建一个自定义404错误对象并传递给错误处理中间件
 app.use((_req: Request, _res: Response, next: NextFunction) => {

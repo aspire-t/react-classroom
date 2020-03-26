@@ -5,7 +5,7 @@ import { Descriptions, Button, Alert } from 'antd'
 
 import { CombinedState, ProfileState, LOGIN_TYPES } from '@/typings/state'
 import Nav from '@/components/Nav'
-import mapDispatchToProps from '@/store/actions/home'
+import mapDispatchToProps from '@/store/actions/profile'
 
 import './index.less'
 
@@ -17,7 +17,10 @@ type Props = PropsWithChildren<
 
 function Profile(props: Props) {
   let content
-  useEffect(() => {}, [])
+
+  useEffect(() => {
+    props.validate()
+  }, [])
 
   if (props.loginState === LOGIN_TYPES.UN_VALIDATE) {
     content = null
@@ -28,7 +31,9 @@ function Profile(props: Props) {
           <Descriptions.Item label="用户名">react-class</Descriptions.Item>
           <Descriptions.Item label="邮箱">854466391@qq.com</Descriptions.Item>
         </Descriptions>
-        <Button type="danger">退出</Button>
+        <Button type="danger" onClick={() => props.logout()}>
+          退出
+        </Button>
       </div>
     )
   } else {

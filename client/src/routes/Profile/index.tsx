@@ -1,6 +1,8 @@
-import React, { PropsWithChildren } from 'react'
+import React, { PropsWithChildren, useEffect } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { Descriptions, Button, Alert } from 'antd'
+
 import { CombinedState, ProfileState, LOGIN_TYPES } from '@/typings/state'
 import Nav from '@/components/Nav'
 import mapDispatchToProps from '@/store/actions/home'
@@ -15,9 +17,38 @@ type Props = PropsWithChildren<
 
 function Profile(props: Props) {
   let content
+  useEffect(() => {}, [])
 
   if (props.loginState === LOGIN_TYPES.UN_VALIDATE) {
     content = null
+  } else if (props.loginState === LOGIN_TYPES.LOGIN) {
+    content = (
+      <div className="user-info">
+        <Descriptions title="当前用户">
+          <Descriptions.Item label="用户名">react-class</Descriptions.Item>
+          <Descriptions.Item label="邮箱">854466391@qq.com</Descriptions.Item>
+        </Descriptions>
+        <Button type="danger">退出</Button>
+      </div>
+    )
+  } else {
+    content = (
+      <>
+        <Alert
+          type="warning"
+          message="未登录"
+          description="亲爱的用户你好，你尚未登录，请你注册或者登录"
+        />
+        <div style={{ textAlign: 'center', padding: '.5rem' }}>
+          <Button type="dashed" onClick={() => props.history.push('/login')}>
+            登录
+          </Button>
+          <Button type="dashed" onClick={() => props.history.push('/register')}>
+            注册
+          </Button>
+        </div>
+      </>
+    )
   }
 
   return (

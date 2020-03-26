@@ -12,6 +12,7 @@ import HttpException from './exceptions/HttpException'
 import * as userController from './controllers/userController'
 
 const app: Express = express()
+
 app.use(cors())
 app.use(morgan('dev'))
 app.use(helmet())
@@ -25,6 +26,9 @@ app.get('/', (_req, res, _next) => {
 })
 
 app.post('/user/register', userController.register)
+app.post('/user/login', userController.login)
+// 客户端把token传递给服务器，服务器返回当前的用户，如果token不合法或过期，则返回null
+app.get('/user/validate', userController.validate)
 
 // 如果没有匹配到任何路由，则会创建一个自定义404错误对象并传递给错误处理中间件
 app.use((_req: Request, _res: Response, next: NextFunction) => {

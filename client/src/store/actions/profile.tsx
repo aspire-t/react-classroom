@@ -1,7 +1,7 @@
 import { push } from 'connected-react-router'
 import * as actionTypes from '@/store/action-types'
 import { validate, register } from '@/api/profile'
-import { RegisterPayload } from '@/typings/profile'
+import { RegisterPayload, LoginPayload } from '@/typings/profile'
 import { message } from 'antd'
 import { RegisterData } from '@/typings/response'
 import { AxiosResponse } from 'axios'
@@ -40,5 +40,6 @@ export default {
         }
       })()
     }
-  }
+  },
+  login(values: LoginPayload) {}
 }

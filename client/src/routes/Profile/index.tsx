@@ -30,7 +30,6 @@ function beforeUpload(file: RcFile) {
 
 function Profile(props: Props) {
   let content
-
   let [uploading, setUploading] = useState(false)
   useEffect(() => {
     props.validate()
@@ -74,7 +73,7 @@ function Profile(props: Props) {
               listType="picture-card"
               className="avatar-uploader"
               showUploadList={false}
-              action="http://localhost:8001/user/uploadAvatar"
+              action="http://localhost:8001/user/uploadAvatar?"
               beforeUpload={beforeUpload}
               data={{ userId: props.user.id }}
               onChange={handleChange}

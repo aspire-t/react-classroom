@@ -61,6 +61,7 @@ export const login = async (
     // 在 User上扩展了login方法，比直接在这里写判断的逻辑更方便校验，代码也更清晰
     // let user = await User.findOne({ username })
     let user: UserDocument | null = await User.login(username, password)
+
     if (user) {
       // 这里是给模型的实例扩展方法
       let access_token = user.getAccessToken()

@@ -60,5 +60,11 @@ export default {
         }
       })()
     }
+  },
+  setAvatar(avatarUrl: string) {
+    return {
+      type: actionTypes.SET_AVATAR,
+      payload: avatarUrl
+    }
   }
 }

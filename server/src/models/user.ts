@@ -64,6 +64,7 @@ UserSchema.pre<UserDocument>('save', async function(next: HookNextFunction) {
     next(error)
   }
 })
+
 // 在user的 schema 上扩展login方法
 // 注意这里不能使用箭头函数,因为需要去拿到this
 UserSchema.static('login', async function(

@@ -18,7 +18,7 @@ export default function(
       if (action.payload.success) {
         return {
           loginState: LOGIN_TYPES.LOGIN,
-          user: action.payload,
+          user: action.payload.data,
           error: null
         }
       } else {

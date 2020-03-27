@@ -1,9 +1,9 @@
 import { push } from 'connected-react-router'
 import * as actionTypes from '@/store/action-types'
-import { validate, register } from '@/api/profile'
+import { validate, register, login } from '@/api/profile'
 import { RegisterPayload, LoginPayload } from '@/typings/profile'
 import { message } from 'antd'
-import { RegisterData } from '@/typings/response'
+import { RegisterData, LoginData } from '@/typings/response'
 import { AxiosResponse } from 'axios'
 export default {
   validate() {
@@ -28,6 +28,7 @@ export default {
           //   RegisterData
           // >(values)
 
+          // 可以改写成下面这样，当然register 这个方法，也需要跟着修改一下
           let result: RegisterData = await register<RegisterData>(values)
 
           if (result.success) {
@@ -41,5 +42,23 @@ export default {
       })()
     }
   },
-  login(values: LoginPayload) {}
+  login(values: LoginPayload) {
+    return function(dispatch: any, getState: any) {
+      ;(async function() {
+        try {
+          // 可以改写成下面这样，当然register 这个方法，也需要跟着修改一下
+          let result: LoginData = await login<LoginData>(values)
+
+          if (result.success) {
+            sessionStorage.setItem('access_token', result.data)
+            dispatch(push('/profile'))
+          } else {
+            message.error('登录失败')
+          }
+        } catch (error) {
+          message.error('登录失败')
+        }
+      })()
+    }
+  }
 }

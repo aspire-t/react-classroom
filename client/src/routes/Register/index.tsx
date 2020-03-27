@@ -1,12 +1,13 @@
 import React, { PropsWithChildren } from 'react'
-import './index.less'
 import { Form, Input, Icon, Button, message } from 'antd'
 import { connect } from 'react-redux'
-import { CombinedState, ProfileState } from '@/typings/state'
 import { RouteComponentProps, Link } from 'react-router-dom'
+
+import { CombinedState, ProfileState } from '@/typings/state'
 import mapDispatchToProps from '@/store/actions/profile'
 import { FormComponentProps } from 'antd/lib/form'
 import Nav from '@/components/Nav'
+import './index.less'
 
 type Props = PropsWithChildren<
   RouteComponentProps &

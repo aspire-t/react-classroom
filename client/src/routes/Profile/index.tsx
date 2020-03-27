@@ -1,11 +1,11 @@
 import React, { PropsWithChildren, useEffect } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Descriptions, Button, Alert } from 'antd'
+import { Descriptions, Button, Alert, Upload } from 'antd'
 
 import { CombinedState, ProfileState, LOGIN_TYPES } from '@/typings/state'
-import Nav from '@/components/Nav'
 import mapDispatchToProps from '@/store/actions/profile'
+import Nav from '@/components/Nav'
 
 import './index.less'
 
@@ -28,8 +28,10 @@ function Profile(props: Props) {
     content = (
       <div className="user-info">
         <Descriptions title="当前用户">
-          <Descriptions.Item label="用户名">react-class</Descriptions.Item>
-          <Descriptions.Item label="邮箱">854466391@qq.com</Descriptions.Item>
+          <Descriptions.Item label="用户名">
+            {props.user.username}
+          </Descriptions.Item>
+          <Descriptions.Item label="邮箱">{props.user.email}</Descriptions.Item>
         </Descriptions>
         <Button type="danger" onClick={() => props.logout()}>
           退出

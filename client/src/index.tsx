@@ -8,6 +8,8 @@ import zh_CN from 'antd/lib/locale-provider/zh_CN'
 import './assets/style/common.less'
 import Home from './routes/Home'
 import Mine from './routes/Mine'
+import Register from './routes/Register'
+import Login from './routes/Login'
 import Profile from './routes/Profile'
 import { connectRouter, ConnectedRouter } from 'connected-react-router'
 import history from '@/history'
@@ -22,6 +24,8 @@ let contain = ReactDOM.render(
             <Route path="/" exact component={Home}></Route>
             <Route path="/mine" exact component={Mine}></Route>
             <Route path="/profile" exact component={Profile}></Route>
+            <Route path="/register" exact component={Register}></Route>
+            <Route path="/login" exact component={Login}></Route>
           </Switch>
         </main>
         <Tabs />

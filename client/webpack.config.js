@@ -1,6 +1,6 @@
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const tsImportPluginFactory = require('ts-import-plugin')
+const tsImportPluginFactory = require('ts-import-plugin') // 让antd 在 ts 环境下使用
 const path = require('path')
 //process.env.NODE_ENV == 'production' ? 'production' : 'development';
 module.exports = {
@@ -33,7 +33,7 @@ module.exports = {
         test: /\.(j|t)sx?$/, // 这个正则包含了.ts, .tsx, .js, .jsx
         loader: 'ts-loader',
         //babel-plugin-import 可以实现antd按需加载，所以它要和babel-loader配合使用
-        //ts-loader
+        //但是和  ts-loader 没法在一起使用
         options: {
           transpileOnly: true, //只转译，不检查
           getCustomTransformers: () => ({
@@ -41,7 +41,7 @@ module.exports = {
             before: [
               tsImportPluginFactory({
                 libraryName: 'antd', //对哪个模块进行按需加载
-                libraryDirectory: 'es', //按需加载的模块，如果实现按需加载，必须是ES Modules
+                libraryDirectory: 'es', //按需加载的模块，如果实现按需加载，必须是ES Modules 可以在 antd 那个包的目录下看到es这个文件夹
                 style: 'css' //自动引入它对应的CSS
               })
             ]

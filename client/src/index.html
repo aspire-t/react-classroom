@@ -9,15 +9,17 @@
 
 <body>
   <script>
-    (function () {
-      function refreshRem() {
-        // webpack 有个 loader px2rem也可以实现
-        // 如果屏幕宽度是750px< 1rem = 100px   iPhone6  屏幕宽度是：375  1rem = 50px
-        document.documentElement.style.fontSize = document.documentElement.clientWidth / 750 * 100 + 'px'
-      }
-      refreshRem()
-      window.addEventListener('resize', refreshRem, false)
-    })()
+    // (function () {
+    let docEle = document.documentElement
+
+    function refreshRem() {
+      // webpack 有个 loader px2rem也可以实现
+      // 如果屏幕宽度是750px< 1rem = 100px   iPhone6  屏幕宽度是：375  1rem = 50px
+      docEle.style.fontSize = docEle.clientWidth / 10 + 'px'
+    }
+    refreshRem()
+    window.addEventListener('resize', refreshRem, false)
+    // })()
   </script>
   <div id="root"></div>
 </body>

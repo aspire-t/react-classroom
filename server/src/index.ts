@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
   //指定上传的目录
   destination: path.join(__dirname, 'public', 'uploads'),
   filename(_req: Request, file: Express.Multer.File, callback) {
-    // callback 第二个参数是文件名 时间戳.jpg
+    // callback 第一个参数是错误对象,第二个参数是文件名 时间戳.jpg
     callback(null, Date.now() + path.extname(file.originalname))
   }
 })

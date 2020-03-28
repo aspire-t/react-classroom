@@ -120,16 +120,11 @@ export const uploadAvatar = async (
 ) => {
   try {
     let { userId } = req.body
-    console.log(userId)
-    console.log(req.file)
-    // console.log(req)
-    let avatar =
-      'https://gw.alipayobjects.com/zos/rmsportal/DkKNubTaaVsKURhcVGkh.svg'
-    // let avatar = `${req.protocol}://${req.headers.host}/uploads/${req.file.filename}`
-    // console.log(userId)
-    // await User.updateOne({ _id: userId }, { avatar })
-    // //处理上传的文件，然后更新数据库，更新此用户对应的avatar字段。然后返回真实的图片路径
-
+    // let avatar =
+    //   'https://gw.alipayobjects.com/zos/rmsportal/DkKNubTaaVsKURhcVGkh.svg'
+    let avatar = `${req.protocol}://${req.headers.host}/uploads/${req.file.filename}`
+    await User.updateOne({ _id: userId }, { avatar })
+    //处理上传的文件，然后更新数据库，更新此用户对应的avatar字段。然后返回真实的图片路径
     res.json({
       success: true,
       data: avatar

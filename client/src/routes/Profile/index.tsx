@@ -15,6 +15,7 @@ type Props = PropsWithChildren<
     ReturnType<typeof mapStateToProps> &
     typeof mapDispatchToProps
 >
+
 // 上传文件前的判断
 function beforeUpload(file: RcFile) {
   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'

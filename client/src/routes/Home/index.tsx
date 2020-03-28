@@ -6,8 +6,10 @@ import mapDispatchToProps from '@/store/actions/home'
 
 import HomeHeader from './components/HomeHeader'
 import HomeSliders from './components/HomeSliders'
+import LessonList from './components/LessonList'
 
 import './index.less'
+import { getLesson } from '@/api/home'
 
 // type PropsWithChildren<P> = P & { children?: ReactNode };
 type Props = PropsWithChildren<
@@ -30,6 +32,8 @@ function Home(props: Props) {
           sliders={props.sliders}
           getSliders={props.getSliders}
         ></HomeSliders>
+
+        <LessonList getLessons={props.getLessons}></LessonList>
       </div>
     </>
   )

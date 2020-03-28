@@ -1,5 +1,7 @@
 import * as actionTypes from '@/store/action-types'
-import { getSliders } from '@/api/home'
+import { getSliders, getLessons } from '@/api/home'
+import { StoreDispatch, StoreGatState } from '../index'
+import { LessonData } from '@/typings'
 
 export default {
   setCurrentCategory(currentCategory: string) {
@@ -14,6 +16,29 @@ export default {
     return {
       type: actionTypes.GET_SLIDERS,
       payload: getSliders()
+    }
+  },
+  // 获取课程列表数据 获取下一页数据并合并到当前列表中
+  getLessons() {
+    return function(dispatch: StoreDispatch, getState: StoreGatState) {
+      ;(async function() {
+        let {
+          currentCategory,
+          lessons: { hasMore, offset, limit, loading }
+        } = getState().home
+        if (!loading && hasMore) {
+          let result: LessonData = await getLessons<LessonData>(
+            currentCategory,
+            offset,
+            limit
+          )
+
+          dispatch({
+            type: actionTypes.SET_LESSON,
+            payload: result.data
+          })
+        }
+      })()
     }
   }
 }

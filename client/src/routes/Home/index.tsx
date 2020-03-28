@@ -1,12 +1,14 @@
-import React, { PropsWithChildren } from 'react'
+import React, { PropsWithChildren, useRef } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { CombinedState, HomeState } from '@/typings/state'
+import { CombinedState, HomeState } from '@/typings'
 import mapDispatchToProps from '@/store/actions/home'
 
 import HomeHeader from './components/HomeHeader'
+import HomeSliders from './components/HomeSliders'
 
 import './index.less'
+
 // type PropsWithChildren<P> = P & { children?: ReactNode };
 type Props = PropsWithChildren<
   RouteComponentProps &
@@ -15,12 +17,20 @@ type Props = PropsWithChildren<
 >
 
 function Home(props: Props) {
+  let homeContainer = useRef<HTMLDivElement>(null) //{current:null}=> {current:HTMLDivElement}
   return (
     <>
       <HomeHeader
         currentCategory={props.currentCategory}
         setCurrentCategory={props.setCurrentCategory}
       ></HomeHeader>
+
+      <div className="home-container" ref={homeContainer}>
+        <HomeSliders
+          sliders={props.sliders}
+          getSliders={props.getSliders}
+        ></HomeSliders>
+      </div>
     </>
   )
 }

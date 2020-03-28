@@ -1,11 +1,13 @@
 import { AnyAction } from 'redux'
-import { HomeState } from '@/typings/state'
+import { HomeState } from '@/typings'
 import * as actionTypes from '@/store/action-types'
 
 const initialState: HomeState = {
-  currentCategory: 'all'
+  currentCategory: 'all',
+  sliders: []
 }
 
+//immer 不可变数据集  redux-immutable  redux-immer
 export default function(
   state: HomeState = initialState,
   action: AnyAction
@@ -13,6 +15,14 @@ export default function(
   switch (action.type) {
     case actionTypes.SET_CURRENT_CATEGORY:
       return { ...state, currentCategory: action.payload }
+    case actionTypes.GET_SLIDERS:
+      //  dispatch({ ...action, payload: error, error: true });
+      // action有了error属性，那说明promise失败了
+      if (action.error) {
+        return state
+      } else {
+        return { ...state, sliders: action.payload.data }
+      }
     default:
       return state
   }

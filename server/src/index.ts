@@ -4,12 +4,14 @@ import cors from 'cors' // 用来跨域的
 import morgan from 'morgan' // 这是用来输入访问日志的
 import helmet from 'helmet' // 用来进行安全过滤的
 import multer from 'multer' // 上传头像
-import 'dotenv/config' // 这是包的作用是读取.env文件然后写入process.env.JWT_SECRET_KEY
 import path from 'path'
+import 'dotenv/config' // 这是包的作用是读取.env文件然后写入process.env.JWT_SECRET_KEY
 
 import errorMiddleware from './middlewares/errorMiddleware'
 import HttpException from './exceptions/HttpException'
 import * as userController from './controllers/userController'
+import * as slideController from './controllers/slideController'
+import { Slider } from './models'
 
 //指定上传文件的存储空间
 const storage = multer.diskStorage({
@@ -50,6 +52,8 @@ app.post(
   userController.uploadAvatar
 )
 
+app.get('/slider/list', slideController.list)
+
 // 如果没有匹配到任何路由，则会创建一个自定义404错误对象并传递给错误处理中间件
 app.use((_req: Request, _res: Response, next: NextFunction) => {
   const error: HttpException = new HttpException(404, '尚未为此路径分配路由')
@@ -63,8 +67,26 @@ app.use(errorMiddleware)
   const MONGODB_URL =
     process.env.MONGODB_URL || `mongodb://localhost:27017/react-classroom`
   await mongoose.connect(MONGODB_URL)
+
+  await createInitialSliders()
   const PORT = process.env.PORT || 8001
   app.listen(PORT, () => {
     console.log(`Running on http://localhost:${PORT}`)
   })
 })()
+
+async function createInitialSliders() {
+  const sliders = await Slider.find()
+  if (sliders.length == 0) {
+    const sliders = [
+      {
+        url: 'http://www.zhufengpeixun.cn/themes/jianmo2/images/reactnative.png'
+      },
+      { url: 'http://www.zhufengpeixun.cn/themes/jianmo2/images/react.png' },
+      { url: 'http://www.zhufengpeixun.cn/themes/jianmo2/images/vue.png' },
+      { url: 'http://www.zhufengpeixun.cn/themes/jianmo2/images/wechat.png' },
+      { url: 'http://www.zhufengpeixun.cn/themes/jianmo2/images/architect.jpg' }
+    ]
+    await Slider.create(sliders)
+  }
+}

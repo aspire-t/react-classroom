@@ -13,7 +13,7 @@ axios.interceptors.request.use(
   (error: any) => Promise.reject(error)
 )
 
-//response拦截器里把AxiosResponse=>AxiosResponse.data
+// response拦截器里把AxiosResponse=>AxiosResponse.data
 axios.interceptors.response.use(
   response => response.data,
   error => Promise.reject(error)

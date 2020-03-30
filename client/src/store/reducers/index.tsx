@@ -1,10 +1,13 @@
-import { combineReducers, ReducersMapObject, AnyAction, Reducer } from 'redux'
+import { ReducersMapObject, AnyAction, Reducer } from 'redux'
 import { connectRouter } from 'connected-react-router'
 import home from './home'
 import mine from './mine'
 import profile from './profile'
 import history from '@/history'
 import { CombinedState } from '@/typings/state'
+import produce from 'immer'
+// combineReducers 是从redux里面引出来的，现在是从redux-immer里面引出来
+import { combineReducers } from 'redux-immer'
 
 // 第一步：我们先自己构建RootState 根状态
 // export interface CombinedState {
@@ -24,7 +27,7 @@ let reducers: ReducersMapObject<CombinedState, AnyAction> = {
 
 const rootReducer: Reducer<CombinedState, AnyAction> = combineReducers<
   CombinedState
->(reducers)
+>(produce, reducers)
 
 export default rootReducer
 

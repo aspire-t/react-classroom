@@ -33,7 +33,10 @@ function Home(props: Props) {
           getSliders={props.getSliders}
         ></HomeSliders>
 
-        <LessonList getLessons={props.getLessons}></LessonList>
+        <LessonList
+          lessons={props.lessons}
+          getLessons={props.getLessons}
+        ></LessonList>
       </div>
     </>
   )

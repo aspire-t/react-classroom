@@ -27,6 +27,9 @@ export default {
           lessons: { hasMore, offset, limit, loading }
         } = getState().home
         if (!loading && hasMore) {
+          // 先把loading设置为true
+          dispatch({ type: actionTypes.SET_LESSONS_LOADING, payload: true })
+          // 调接口加载数据
           let result: LessonData = await getLessons<LessonData>(
             currentCategory,
             offset,
@@ -34,7 +37,7 @@ export default {
           )
 
           dispatch({
-            type: actionTypes.SET_LESSON,
+            type: actionTypes.SET_LESSONS,
             payload: result.data
           })
         }

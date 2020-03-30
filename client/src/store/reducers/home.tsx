@@ -30,18 +30,28 @@ export default function(
       } else {
         return { ...state, sliders: action.payload.data }
       }
-
-    case actionTypes.SET_LESSON:
-      return {
-        ...state,
-        lessons: {
-          ...state.lessons,
-          loading: false,
-          list: [...state.lessons.list, ...action.payload.list],
-          hasMore: action.payload.hasMore,
-          offset: state.lessons.offset + action.payload.list.length
-        }
-      }
+    case actionTypes.SET_LESSONS_LOADING:
+      // redux规定reducer永远要返回一个新的状态
+      // 用immer来解决这个问题
+      state.lessons.loading = action.payload
+      return state
+    case actionTypes.SET_LESSONS:
+      state.lessons.loading = false
+      state.lessons.list = [...state.lessons.list, ...action.payload.list]
+      state.lessons.hasMore = action.payload.hasMore
+      state.lessons.offset = state.lessons.offset + action.payload.list.length
+      return state
+    // case actionTypes.SET_LESSONS:
+    //   return {
+    //     ...state,
+    //     lessons: {
+    //       ...state.lessons,
+    //       loading: false,
+    //       list: [...state.lessons.list, ...action.payload.list],
+    //       hasMore: action.payload.hasMore,
+    //       offset: state.lessons.offset + action.payload.list.length
+    //     }
+    //   }
     default:
       return state
   }

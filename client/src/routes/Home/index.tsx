@@ -1,15 +1,15 @@
-import React, { PropsWithChildren, useRef } from 'react'
+import React, { PropsWithChildren, useRef, useEffect } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import { connect } from 'react-redux'
+
 import { CombinedState, HomeState } from '@/typings'
 import mapDispatchToProps from '@/store/actions/home'
-
 import HomeHeader from './components/HomeHeader'
 import HomeSliders from './components/HomeSliders'
 import LessonList from './components/LessonList'
+import { loadMore } from '../../utils/utils'
 
 import './index.less'
-import { getLesson } from '@/api/home'
 
 // type PropsWithChildren<P> = P & { children?: ReactNode };
 type Props = PropsWithChildren<
@@ -20,6 +20,10 @@ type Props = PropsWithChildren<
 
 function Home(props: Props) {
   let homeContainer = useRef<HTMLDivElement>(null) //{current:null}=> {current:HTMLDivElement}
+  useEffect(() => {
+    loadMore(homeContainer.current, props.getLessons)
+  }, [])
+
   return (
     <>
       <HomeHeader

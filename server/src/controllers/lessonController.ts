@@ -16,5 +16,8 @@ export const list = async (req: Request, res: Response) => {
     .limit(limit)
 
   // 20>0+5 true   20>5+5   20> 10+5   20>15+5
-  res.json({ success: true, data: { list, hasMore: total > offset + limit } })
+
+  setTimeout(() => {
+    res.json({ success: true, data: { list, hasMore: total > offset + limit } })
+  }, 1000)
 }

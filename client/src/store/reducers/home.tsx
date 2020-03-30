@@ -52,6 +52,11 @@ export default function(
     //       offset: state.lessons.offset + action.payload.list.length
     //     }
     //   }
+    case actionTypes.REFRESH_LESSONS:
+      state.lessons.loading = false
+      state.lessons.list = action.payload.list
+      state.lessons.offset = action.payload.list.length
+      return state
     default:
       return state
   }

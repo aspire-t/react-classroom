@@ -7,7 +7,7 @@ import mapDispatchToProps from '@/store/actions/home'
 import HomeHeader from './components/HomeHeader'
 import HomeSliders from './components/HomeSliders'
 import LessonList from './components/LessonList'
-import { loadMore } from '../../utils/utils'
+import { loadMore, downRefresh } from '../../utils/utils'
 
 import './index.less'
 
@@ -22,6 +22,7 @@ function Home(props: Props) {
   let homeContainer = useRef<HTMLDivElement>(null) //{current:null}=> {current:HTMLDivElement}
   useEffect(() => {
     loadMore(homeContainer.current, props.getLessons)
+    downRefresh(homeContainer.current, props.refreshLessons)
   }, [])
 
   return (
@@ -29,6 +30,7 @@ function Home(props: Props) {
       <HomeHeader
         currentCategory={props.currentCategory}
         setCurrentCategory={props.setCurrentCategory}
+        refreshLessons={props.refreshLessons}
       ></HomeHeader>
 
       <div className="home-container" ref={homeContainer}>

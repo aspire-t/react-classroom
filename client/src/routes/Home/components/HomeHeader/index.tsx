@@ -16,6 +16,7 @@ import logo from '@/assets/images/logo.png'
 export interface Props {
   currentCategory: string // 当前选中的分类 此数据会放在redux仓库中
   setCurrentCategory: (currentCategory: string) => any // 改变仓库中的分类
+  refreshLessons: Function
 }
 
 const duration = 500
@@ -45,6 +46,7 @@ function HomeHeader(props: Props) {
     let target: HTMLUListElement = event.target as HTMLUListElement
     let category = target.dataset.category
     props.setCurrentCategory(category)
+    props.refreshLessons()
     setIsMenuVisible(false)
   }
 

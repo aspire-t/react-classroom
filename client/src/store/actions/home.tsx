@@ -26,6 +26,7 @@ export default {
           currentCategory,
           lessons: { hasMore, offset, limit, loading }
         } = getState().home
+
         if (!loading && hasMore) {
           // 先把loading设置为true
           dispatch({ type: actionTypes.SET_LESSONS_LOADING, payload: true })
@@ -38,6 +39,32 @@ export default {
 
           dispatch({
             type: actionTypes.SET_LESSONS,
+            payload: result.data
+          })
+        }
+      })()
+    }
+  },
+  refreshLessons() {
+    return function(dispatch: StoreDispatch, getState: StoreGatState) {
+      ;(async function() {
+        let {
+          currentCategory,
+          lessons: { limit, loading }
+        } = getState().home
+
+        if (!loading) {
+          // 先把loading设置为true
+          dispatch({ type: actionTypes.SET_LESSONS_LOADING, payload: true })
+          // 调接口加载数据
+          let result: LessonData = await getLessons<LessonData>(
+            currentCategory,
+            0,
+            limit
+          )
+
+          dispatch({
+            type: actionTypes.REFRESH_LESSONS,
             payload: result.data
           })
         }

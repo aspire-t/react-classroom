@@ -21,3 +21,9 @@ export const list = async (req: Request, res: Response) => {
     res.json({ success: true, data: { list, hasMore: total > offset + limit } })
   }, 1000)
 }
+
+export const getLessonById = async (req: Request, res: Response) => {
+  let id = req.params.id
+  let lesson = await Lesson.findById(id)
+  res.json({ success: true, data: lesson })
+}

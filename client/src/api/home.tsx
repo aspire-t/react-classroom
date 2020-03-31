@@ -18,3 +18,7 @@ export function getLessons<T>(
     `/lesson/list?category=${currentCategory}&offset=${offset}&limit=${limit}`
   )
 }
+
+export function getLessonById<T>(id: string) {
+  return request.get<T, T>(`/lesson/${id}`)
+}

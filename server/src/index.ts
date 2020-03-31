@@ -55,6 +55,7 @@ app.post(
 
 app.get('/slider/list', slideController.list)
 app.get('/lesson/list', lessonController.list)
+app.get('/lesson/:id', lessonController.getLessonById)
 
 // 如果没有匹配到任何路由，则会创建一个自定义404错误对象并传递给错误处理中间件
 app.use((_req: Request, _res: Response, next: NextFunction) => {

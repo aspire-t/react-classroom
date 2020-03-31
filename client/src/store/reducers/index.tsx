@@ -3,6 +3,7 @@ import { connectRouter } from 'connected-react-router'
 import home from './home'
 import mine from './mine'
 import profile from './profile'
+import cart from './cart'
 import history from '@/history'
 import { CombinedState } from '@/typings/state'
 import produce from 'immer'
@@ -22,6 +23,7 @@ let reducers: ReducersMapObject<CombinedState, AnyAction> = {
   home,
   mine,
   profile,
+  cart,
   router: connectRouter(history)
 }
 

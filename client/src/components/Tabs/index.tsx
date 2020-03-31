@@ -13,7 +13,7 @@ function Tabs(_props: Props) {
         <span>首页</span>
       </NavLink>
 
-      <NavLink to="/mine">
+      <NavLink to="/cart">
         <Icon type="shopping-cart" />
         <span>购物车</span>
       </NavLink>

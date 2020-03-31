@@ -12,6 +12,7 @@ import { Card, Button } from 'antd'
 import Nav from '@/components/Nav'
 import { CombinedState, GetLessonData, Lesson } from '@/typings'
 import { getLessonById } from '@/api/home'
+import actions from '@/store/actions/cart'
 
 import './index.less'
 
@@ -25,7 +26,7 @@ interface Params {
 //     S = H.LocationState
 // >
 type Props = PropsWithChildren<
-  RouteComponentProps<Params, StaticContext, Lesson>
+  RouteComponentProps<Params, StaticContext, Lesson> & typeof actions
 >
 
 function Detail(props: Props) {
@@ -49,7 +50,9 @@ function Detail(props: Props) {
     })()
   }, [])
 
-  const addCartItem = (lesson: Lesson) => {}
+  const addCartItem = (lesson: Lesson) => {
+    props.addCartItem(lesson)
+  }
 
   return (
     <>
@@ -81,4 +84,7 @@ function Detail(props: Props) {
   )
 }
 
-export default connect((state: CombinedState): CombinedState => state)(Detail)
+export default connect(
+  (state: CombinedState): CombinedState => state,
+  actions
+)(Detail)

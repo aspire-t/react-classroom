@@ -1,6 +1,7 @@
 import React, { PropsWithChildren, useRef, useEffect } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { Spin } from 'antd'
 
 import { CombinedState, HomeState } from '@/typings'
 import mapDispatchToProps from '@/store/actions/home'
@@ -32,7 +33,10 @@ function Home(props: Props) {
         setCurrentCategory={props.setCurrentCategory}
         refreshLessons={props.refreshLessons}
       ></HomeHeader>
-
+      {/* 下拉刷新图标 */}
+      <div className="refresh-loading">
+        <Spin size="large" />
+      </div>
       <div className="home-container" ref={homeContainer}>
         <HomeSliders
           sliders={props.sliders}

@@ -28,6 +28,18 @@ function Home(props: Props) {
     // 这个监听，就是为了调用 LessonList 这个函数组件里的 forwardRef.current这个方法
     // 这个其实是父组件调用子组件的方法
     homeContainer.current.addEventListener('scroll', lessonList.current)
+    // 存储滚动的位置，切换路由之后，依旧能回到切换路由之前的位置
+    if (props.lessons.list.length > 0) {
+      homeContainer.current.scrollTop = parseFloat(
+        localStorage.getItem('homeScrollTop')
+      )
+    }
+    return () => {
+      localStorage.setItem(
+        'homeScrollTop',
+        homeContainer.current.scrollTop + ''
+      )
+    }
   }, [])
 
   return (

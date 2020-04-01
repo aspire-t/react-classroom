@@ -14,12 +14,27 @@ import './index.less'
 type Props = PropsWithChildren<{
   lessons: Lessons
   getLessons: () => void
+  container: any
 }>
 
-function LessonList(props: Props) {
+function LessonList(props: Props, forwardRef: any) {
   useEffect(() => {
     props.getLessons()
   }, [])
+
+  let start = 0 //开始真正渲染的起始索引 从它开始向下渲染3条数据。除此以外的卡片都用空的DIV撑开发
+  let rootFontSize = parseFloat(document.documentElement.style.fontSize) //37.5px
+  //说明div已经 homeContainer 已经有了
+  if (props.container.current) {
+    let scrollTop = props.container.current.scrollTop // 获取父容器向上卷去的高度
+    //轮播图的高度+h2全部课程的高度
+    //37.5*4.2=157.5px  160px+50px;
+    start = Math.floor(
+      // 4.2 轮播图的高度，1.33是H2的高度  8.66667 是 一张 cart 的高度
+      (scrollTop - (4.26 + 1.33) * rootFontSize) / (8.66667 * rootFontSize)
+    )
+    // setStart(start)
+  }
 
   return (
     <section className="lesson-list">
@@ -28,23 +43,33 @@ function LessonList(props: Props) {
         全部课程
       </h2>
 
-      {props.lessons.list.map((item: Lesson, index: number) => (
-        <Link
-          key={item.id}
-          to={{ pathname: `/detail/${item.id}`, state: item }}
-        >
-          <Card
-            hoverable={true}
-            style={{ width: '100%' }}
-            cover={<img src={item.poster} />}
+      {props.lessons.list.map((item: Lesson, index: number) =>
+        index >= start && index <= start + 3 ? (
+          <Link
+            key={item.id}
+            to={{ pathname: `/detail/${item.id}`, state: item }}
           >
-            <Card.Meta
-              title={item.title}
-              description={`价格:¥${item.price}元`}
-            />
-          </Card>
-        </Link>
-      ))}
+            <Card
+              hoverable={true}
+              style={{ width: '100%' }}
+              cover={<img src={item.poster} />}
+            >
+              <Card.Meta
+                title={item.title}
+                description={`价格:¥${item.price}元`}
+              />
+            </Card>
+          </Link>
+        ) : (
+          <div
+            style={{
+              height: `${8.66667 *
+                rootFontSize *
+                (props.lessons.list.length - start - 3)}px`
+            }}
+          ></div>
+        )
+      )}
 
       {props.lessons.hasMore ? (
         <Button
@@ -65,4 +90,5 @@ function LessonList(props: Props) {
     </section>
   )
 }
-export default LessonList
+// 函数组件本来是不能有ref的，如果要使用ref 就需要用forwardRef包裹一层
+export default forwardRef(LessonList)

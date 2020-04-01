@@ -21,6 +21,7 @@ type Props = PropsWithChildren<
 
 function Home(props: Props) {
   let homeContainer = useRef<HTMLDivElement>(null) //{current:null}=> {current:HTMLDivElement}
+  let lessonList = useRef(null)
   useEffect(() => {
     loadMore(homeContainer.current, props.getLessons)
     downRefresh(homeContainer.current, props.refreshLessons)
@@ -44,6 +45,8 @@ function Home(props: Props) {
         ></HomeSliders>
 
         <LessonList
+          ref={lessonList}
+          container={homeContainer}
           lessons={props.lessons}
           getLessons={props.getLessons}
         ></LessonList>

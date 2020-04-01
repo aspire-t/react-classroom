@@ -22,5 +22,27 @@ export default {
       type: actionTypes.CHANGE_CART_ITEM_COUNT,
       payload: { id, count }
     }
+  },
+  removeCartItem(id: string) {
+    return {
+      type: actionTypes.REMOVE_CART_ITEM,
+      payload: id
+    }
+  },
+  changeCheckedCartItems(checkIds: string[]) {
+    return {
+      type: actionTypes.CHANGE_CHECKED_CART_ITEMS,
+      payload: checkIds
+    }
+  },
+  clearCartItems() {
+    return {
+      type: actionTypes.CLEAR_CART_ITEM
+    }
+  },
+  settle() {
+    return {
+      type: actionTypes.SETTLE
+    }
   }
 }

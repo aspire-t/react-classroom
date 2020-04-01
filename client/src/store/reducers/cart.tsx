@@ -51,7 +51,7 @@ export default function(
         }
         return item
       })
-
+    // 结算
     case actionTypes.SETTLE:
       return state.filter((item: CartItem) => !item.checked)
 

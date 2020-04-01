@@ -51,7 +51,7 @@ function Cart(props: Props) {
         return (
           <Popconfirm
             title="是否要删除商品"
-            // onConfirm={() => props.removeCartItem(row.lesson.id)}
+            onConfirm={() => props.removeCartItem(row.lesson.id)}
             okText="是"
             cancelText="否"
           >
@@ -64,6 +64,27 @@ function Cart(props: Props) {
     }
   ]
 
+  const rowSelection = {
+    selectedRowKeys: props.cart
+      .filter((item: CartItem) => item.checked)
+      .map((item: CartItem) => item.lesson.id),
+
+    onChange: (selectedRowKeys: string[]) => {
+      //selectedRowKeys其实是一个由商品的ID组成的数组
+      props.changeCheckedCartItems(selectedRowKeys)
+    }
+  }
+  // 总数量
+  let totalCount = props.cart
+    .filter((item: CartItem) => item.checked)
+    .reduce((total: number, item: CartItem) => total + item.count, 0)
+  // 总价格
+  let totalPrice = props.cart
+    .filter((item: CartItem) => item.checked)
+    .reduce(
+      (total: number, item: CartItem) => total + item.count * item.lesson.price,
+      0
+    )
   return (
     <>
       <Nav history={props.history}>购物车</Nav>
@@ -71,7 +92,25 @@ function Cart(props: Props) {
         columns={columns}
         dataSource={props.cart}
         pagination={false}
+        rowSelection={rowSelection}
+        rowKey={row => row.lesson.id}
       ></Table>
+      <Row style={{ padding: '5px' }}>
+        <Col span={4}>
+          <Button type="danger" size="small" onClick={props.clearCartItems}>
+            清空
+          </Button>
+        </Col>
+        <Col span={7}>
+          已选择了{totalCount > 0 ? <Badge count={totalCount} /> : 0}件商品
+        </Col>
+        <Col span={9}>总价 ¥{totalPrice}元</Col>
+        <Col span={4}>
+          <Button type="primary" size="small" onClick={props.settle}>
+            结算
+          </Button>
+        </Col>
+      </Row>
     </>
   )
 }

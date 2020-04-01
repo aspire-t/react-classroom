@@ -50,9 +50,9 @@ function Detail(props: Props) {
     })()
   }, [])
 
-  const addCartItem = (lesson: Lesson) => {
+  const addCartItem = useCallback((lesson: Lesson) => {
     props.addCartItem(lesson)
-  }
+  }, [])
 
   return (
     <>

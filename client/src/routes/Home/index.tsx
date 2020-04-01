@@ -25,6 +25,9 @@ function Home(props: Props) {
   useEffect(() => {
     loadMore(homeContainer.current, props.getLessons)
     downRefresh(homeContainer.current, props.refreshLessons)
+    // 这个监听，就是为了调用 LessonList 这个函数组件里的 forwardRef.current这个方法
+    // 这个其实是父组件调用子组件的方法
+    homeContainer.current.addEventListener('scroll', lessonList.current)
   }, [])
 
   return (

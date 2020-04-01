@@ -18,8 +18,15 @@ type Props = PropsWithChildren<{
 }>
 
 function LessonList(props: Props, forwardRef: any) {
+  // 如果我们想让一个组件强行刷新,需要使用 useState
+  // 这个forceUpdate是模拟类组件的强制刷新方法
+  const [_, forceUpdate] = useState(0)
   useEffect(() => {
-    props.getLessons()
+    if (props.lessons.list.length === 0) {
+      props.getLessons()
+    }
+    // forceUpdate(x => x + 1) 这里可以随便写，只是为了刷新
+    forwardRef.current = () => forceUpdate(x => x + 1)
   }, [])
 
   let start = 0 //开始真正渲染的起始索引 从它开始向下渲染3条数据。除此以外的卡片都用空的DIV撑开发
@@ -33,7 +40,6 @@ function LessonList(props: Props, forwardRef: any) {
       // 4.2 轮播图的高度，1.33是H2的高度  8.66667 是 一张 cart 的高度
       (scrollTop - (4.26 + 1.33) * rootFontSize) / (8.66667 * rootFontSize)
     )
-    // setStart(start)
   }
 
   return (
@@ -42,35 +48,38 @@ function LessonList(props: Props, forwardRef: any) {
         <Icon type="menu" />
         全部课程
       </h2>
-
-      {props.lessons.list.map((item: Lesson, index: number) =>
-        index >= start && index <= start + 3 ? (
-          <Link
-            key={item.id}
-            to={{ pathname: `/detail/${item.id}`, state: item }}
-          >
-            <Card
-              hoverable={true}
-              style={{ width: '100%' }}
-              cover={<img src={item.poster} />}
+      <Skeleton
+        loading={props.lessons.loading && props.lessons.list.length === 0}
+        active
+        paragraph={{ rows: 8 }}
+      >
+        {props.lessons.list.map((item: Lesson, index: number) =>
+          index >= start && index <= start + 3 ? (
+            <Link
+              key={item.id}
+              to={{ pathname: `/detail/${item.id}`, state: item }}
             >
-              <Card.Meta
-                title={item.title}
-                description={`价格:¥${item.price}元`}
-              />
-            </Card>
-          </Link>
-        ) : (
-          <div
-            style={{
-              height: `${8.66667 *
-                rootFontSize *
-                (props.lessons.list.length - start - 3)}px`
-            }}
-          ></div>
-        )
-      )}
-
+              <Card
+                hoverable={true}
+                style={{ width: '100%' }}
+                cover={<img src={item.poster} />}
+              >
+                <Card.Meta
+                  title={item.title}
+                  description={`价格:¥${item.price}元`}
+                />
+              </Card>
+            </Link>
+          ) : (
+            <div
+              key={item.id}
+              style={{
+                height: `${8.66667 * rootFontSize}px`
+              }}
+            ></div>
+          )
+        )}
+      </Skeleton>
       {props.lessons.hasMore ? (
         <Button
           onClick={props.getLessons}

@@ -59,9 +59,6 @@ export function downRefresh(element: HTMLDivElement, callback: Function) {
       function touchEnd(_event: TouchEvent) {
         element.removeEventListener('touchmove', touchMove)
         element.removeEventListener('touchend', touchEnd)
-        // if (distance > 30) {
-        //   callback()
-        // }
         $timer = setInterval(() => {
           let currentTop = element.offsetTop
           if (currentTop - originalTop > 1) {
@@ -69,7 +66,6 @@ export function downRefresh(element: HTMLDivElement, callback: Function) {
           } else {
             element.style.top = originalTop + 'px'
           }
-
           // if (distance < 1) {
           //   element.style.top = originalTop + 'px'
           //   clearInterval($timer)
@@ -77,6 +73,10 @@ export function downRefresh(element: HTMLDivElement, callback: Function) {
           // }
           // element.style.top = originalTop + --distance + 'px'
         }, 13)
+
+        if (distance > 30) {
+          // callback()
+        }
       }
     },
     true

@@ -51,6 +51,49 @@ function Detail(props: Props) {
   }, [])
 
   const addCartItem = useCallback((lesson: Lesson) => {
+    // 购物车动画
+    // 思路：复制div，对其做动画
+    // 利用 getBoundingClientRect 获取它的left，top，right，bottom的值
+    let cover: HTMLDivElement = document.querySelector('.ant-card-cover') // cart 的DOM
+    let coverWidth = cover.offsetWidth // cart宽度
+    let coverHeight = cover.offsetHeight // cart高度
+    let coverLeft = cover.getBoundingClientRect().left //距离左边的距离
+    let coverTop = cover.getBoundingClientRect().top // 顶部距离
+
+    let cart: HTMLAreaElement = document.querySelector(
+      'a .anticon.anticon-shopping-cart'
+    ) // 底部购物车DOM
+    let cartWidth = cart.offsetWidth //购物车图标宽度
+    let cartHeight = cart.offsetHeight //购物车图标高度
+    let cartRight = cart.getBoundingClientRect().right //右边框  距离左边的距离
+    let cartBottom = cart.getBoundingClientRect().bottom // 底部 距离顶部距离
+    // clone 出来的div
+    let clonedCover: HTMLDivElement = cover.cloneNode(true) as HTMLDivElement
+
+    clonedCover.style.cssText = `
+        z-index:1000;
+        opacity:.8;
+        position:fixed;
+        width:${coverWidth}px;
+        height:${coverHeight}px;
+        top:${coverTop}px;
+        left:${coverLeft}px;
+        transition: all 1s ease-in-out;
+      `
+    document.body.appendChild(clonedCover)
+
+    setTimeout(() => {
+      clonedCover.style.left = `${cartRight - cartWidth / 2}px`
+      clonedCover.style.top = `${cartBottom - cartHeight / 2}px`
+      clonedCover.style.width = '0px'
+      clonedCover.style.height = '0px'
+      clonedCover.style.opacity = '.5'
+    }, 0)
+
+    setTimeout(() => {
+      clonedCover.parentNode.removeChild(clonedCover)
+    }, 1000)
+
     props.addCartItem(lesson)
   }, [])
 

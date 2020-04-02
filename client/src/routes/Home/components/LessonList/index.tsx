@@ -53,7 +53,8 @@ function LessonList(props: Props, forwardRef: any) {
         active
         paragraph={{ rows: 8 }}
       >
-        {props.lessons.list.map((item: Lesson, index: number) =>
+        {/* 这种优化方式称为单卡片渲染 */}
+        {/* {props.lessons.list.map((item: Lesson, index: number) =>
           index >= start && index <= start + 3 ? (
             <Link
               key={item.id}
@@ -78,7 +79,42 @@ function LessonList(props: Props, forwardRef: any) {
               }}
             ></div>
           )
-        )}
+        )} */}
+
+        {/* 这是另外一种渲染方法，可以上下只渲染空的div，可视区域渲染真实dom */}
+        <div
+          style={{
+            height: `${8.66667 * rootFontSize * start}px`
+          }}
+        ></div>
+
+        {props.lessons.list
+          .slice(start, start + 3)
+          .map((item: Lesson, index: number) => (
+            <Link
+              key={item.id}
+              to={{ pathname: `/detail/${item.id}`, state: item }}
+            >
+              <Card
+                hoverable={true}
+                style={{ width: '100%' }}
+                cover={<img src={item.poster} />}
+              >
+                <Card.Meta
+                  title={item.title}
+                  description={`价格:¥${item.price}元`}
+                />
+              </Card>
+            </Link>
+          ))}
+
+        <div
+          style={{
+            height: `${8.66667 *
+              rootFontSize *
+              (props.lessons.list.length - start - 3)}px`
+          }}
+        ></div>
       </Skeleton>
       {props.lessons.hasMore ? (
         <Button

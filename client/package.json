@@ -21,7 +21,7 @@
     "@types/redux-logger": "^3.0.7",
     "@types/redux-promise": "^0.5.28",
     "antd": "^3.26.9",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "classnames": "^2.2.6",
     "connected-react-router": "^6.6.1",
     "immer": "^5.3.6",
